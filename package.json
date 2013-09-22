@@ -10,6 +10,7 @@
   "license": "BSD-2-Clause",
   "dependencies": {
     "mocha": "~1.13.0",
-    "chai": "~1.8.0"
+    "chai": "~1.8.0",
+    "chai-stats": "~0.3.0"
   }
 }
