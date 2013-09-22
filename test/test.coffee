@@ -10,11 +10,12 @@ suite 'dct', ->
   it "is a thing", ->
 
     vals = [
-      [dct.toDct([1,1]), [Math.sqrt(2), 0], 10]
-      [dct.toDct([1,1,1]), [Math.sqrt(3), 0, 0]]
-      [dct.toDct([1,-1]), [0,1]]
-      [dct.toDct([-1,1]), [0,-1]]
+      [[1,1], [Math.sqrt(2), 0], 10]
+      [[1,1,1], [Math.sqrt(3), 0, 0]]
+      [[1,-1], [0,1]]
+      [[-1,1], [0,-1]]
     ]
 
     for val in vals
-      assert.deepAlmostEqual  val[0], val[1]
+      assert.deepAlmostEqual dct.toDct(val[0]), val[1]
+      # assert.deepAlmostEqual val[1], val[0]

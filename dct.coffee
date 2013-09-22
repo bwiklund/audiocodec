@@ -13,15 +13,16 @@ toDct = (xs) ->
 
 
 
-# fromDct = (dct) ->
-#   res = for k in [0...dct.length]
-#     x = 0
-#     for w, i in dct
-#       x += w * Math.cos(i*(Math.PI/dct.length*2)*k)
-#     x
+fromDct = (dct) ->
+  N = xs.length
+  res = for k in [0...N]
+    x = 0
+    for w, i in dct
+      x += w * Math.sqrt(1 / N) * x * Math.cos (2*i+1)*Math.PI*n / (2*N)
+    x
 
 
 #console.log fromDct toDct input
 
 
-module.exports = {toDct}
+module.exports = {toDct,fromDct}
