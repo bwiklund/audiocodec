@@ -5,24 +5,24 @@ toDct = (xs) ->
   N = xs.length
   dct = for n in [0...N]
     w = 0
+    coef = if n == 0 then Math.sqrt(1 / N) else Math.sqrt(2 / N)
     for x, i in xs
-      w += Math.sqrt(1 / N) * x * Math.cos (2*i+1)*Math.PI*n / (2*N)
+      w += x * coef * Math.cos (2*i+1)*Math.PI*n / (2*N)
 
     w 
 
 
 
 
-fromDct = (dct) ->
+fromDct = (xs) ->
   N = xs.length
-  res = for k in [0...N]
+  res = for i in [0...N]
     x = 0
-    for w, i in dct
-      x += w * Math.sqrt(1 / N) * x * Math.cos (2*i+1)*Math.PI*n / (2*N)
-    x
+    coef = if n == 0 then Math.sqrt(1 / N) else Math.sqrt(2 / N)
+    for w, n in xs
+      x += w * coef * Math.cos (2*i+1)*Math.PI*n / (2*N)
+    x*1
 
-
-#console.log fromDct toDct input
 
 
 module.exports = {toDct,fromDct}
