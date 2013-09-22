@@ -1,0 +1,15 @@
+{
+  "name": "dct",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --compilers coffee:coffee-script -u tdd test.coffee --watch"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "mocha": "~1.13.0",
+    "chai": "~1.8.0"
+  }
+}
