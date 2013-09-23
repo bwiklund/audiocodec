@@ -1,6 +1,5 @@
 fs = require 'fs'
 DCT = require './dct'
-baudio = require 'baudio'
 
 songBytes = fs.readFileSync 'out.raw'
 
