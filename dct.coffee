@@ -1,15 +1,31 @@
 # hello
 
+pi = Math.PI
+cos = Math.cos
+sqrt = Math.sqrt
+
+basis = (i,n,N) ->
+  arg = pi*n*(2*i+1)/(2*N)
+  cosine = cos(arg)
+  cosine * coef(n) * sqrt(2/N)
+
+
+
+coef = (i) ->
+  if i == 0 then 1/Math.sqrt(2) else 1
+
 
 toDct = (xs) ->
+  xs = xs.slice 0
   N = xs.length
   dct = for n in [0...N]
     w = 0
-    coef = if n == 0 then Math.sqrt(1 / N) else Math.sqrt(2 / N)
     for x, i in xs
-      w += x * coef * Math.cos (2*i+1)*Math.PI*n / (2*N)
+      w += x * basis(i,n,N)
+    w
 
-    w 
+  console.log dct
+  dct
 
 
 
@@ -18,10 +34,11 @@ fromDct = (xs) ->
   N = xs.length
   res = for i in [0...N]
     x = 0
-    coef = if n == 0 then Math.sqrt(1 / N) else Math.sqrt(2 / N)
     for w, n in xs
-      x += w * coef * Math.cos (2*i+1)*Math.PI*n / (2*N)
-    x*1
+      x += w * basis i,n,N
+    x
+
+
 
 
 
