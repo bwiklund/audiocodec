@@ -10,14 +10,16 @@ for i in [0..900000]
 
 input = song
 
-toSlices = (sliceLength,xs) ->
-  for x in [0..xs.length / sliceLength]
-    xs[sliceLength*x...sliceLength*(x+1)]
+# convert the buffer to blocks, process each block, and recombine
 
-unSlices = (xs) -> [].concat.apply [], xs
+toChunks = (size,xs) ->
+  for x in [0..xs.length] by size
+    xs[x...x+size]
+
+unChunks = (xs) -> [].concat.apply [], xs
 
 # what is this, haskell?
-output = unSlices toSlices( 16, input )
+output = unChunks toChunks( 16, input )
       .map( DCT.toDct )
       .map( (dct) -> DCT.toLossyDct dct, 0.2 )
       .map( DCT.fromDct )
@@ -26,6 +28,11 @@ output = unSlices toSlices( 16, input )
 Readable = require('stream').Readable;
 Speaker = require('speaker')
 
+
+
+
+
+##################### audio cruft ########################
 
 readable = new Readable
 readable.bitDepth = 16
