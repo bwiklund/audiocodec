@@ -24,7 +24,6 @@ toDct = (xs) ->
       w += x * basis(i,n,N)
     w
 
-  console.log dct
   dct
 
 

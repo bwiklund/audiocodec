@@ -20,7 +20,7 @@ suite 'dct', ->
     [0,1,0]
     [1,1,1]
     [1,1,1,1]
-    []
+    Math.random()-0.5 for i in [0..100]
   ]
 
   for val in vals 
