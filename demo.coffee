@@ -11,23 +11,18 @@ for i in [0..900000]
 
 input = song
 
-sliceLength = 16
-slices = for x in [0..input.length / sliceLength]
-  input[sliceLength*x...sliceLength*(x+1)]
+toSlices = (sliceLength,xs) ->
+  for x in [0..xs.length / sliceLength]
+    xs[sliceLength*x...sliceLength*(x+1)]
 
-dcts = slices.map DCT.toDct
+unSlices = (xs) -> [].concat.apply [], xs
 
-dcts = dcts.map (dct) -> DCT.toLossyDct dct, 0.2
+# what is this, haskell?
+output = unSlices toSlices( 16, input )
+      .map( DCT.toDct )
+      .map( (dct) -> DCT.toLossyDct dct, 0.2 )
+      .map( DCT.fromDct )
 
-outputSlices = dcts.map DCT.fromDct
-
-output = [].concat.apply [], outputSlices
-
-
-# n = 0
-# b = baudio (t,i) -> output[i]
-
-# b.play()
 
 process.stdin.resume()
 
