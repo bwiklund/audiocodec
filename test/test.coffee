@@ -3,8 +3,7 @@ chai.use require('chai-stats')
 assert = chai.assert
 
 
-dct = require '../dct'
-
+DCT = require '../dct'
 
 suite 'dct', ->
 
@@ -32,4 +31,4 @@ suite 'dct', ->
       #   console.log dct.fromDct(val[1]), val[0]
       #   assert.deepAlmostEqual dct.fromDct(val[1]), val[0], 8
       it "it!", ->
-        assert.deepAlmostEqual dct.fromDct(dct.toDct(val)), val, 8
+        assert.deepAlmostEqual DCT.fromDct(DCT.toDct(val)), val, 8

@@ -11,6 +11,7 @@
   "dependencies": {
     "mocha": "~1.13.0",
     "chai": "~1.8.0",
-    "chai-stats": "~0.3.0"
+    "chai-stats": "~0.3.0",
+    "baudio": "~1.1.3"
   }
 }
