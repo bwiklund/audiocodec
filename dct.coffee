@@ -41,7 +41,7 @@ fromDct = (xs) ->
 
 toLossyDct = (dct,amount) -> # 0 - 1
   for r,i in dct
-    if i > dct.length * amount
+    if i >= dct.length * amount
       0
     else
       r
