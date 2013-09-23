@@ -24,8 +24,6 @@ output = unSlices toSlices( 16, input )
       .map( DCT.fromDct )
 
 
-process.stdin.resume()
-
 Readable = require('stream').Readable;
 Speaker = require('speaker')
 
