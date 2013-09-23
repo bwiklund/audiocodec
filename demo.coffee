@@ -5,23 +5,23 @@ baudio = require 'baudio'
 songBytes = fs.readFileSync 'out.raw'
 
 #16 bit le
-# song = []
-# for i in [0..900000]
-#   song.push parseFloat songBytes.readFloatLE(i*4)
+song = []
+for i in [0..900000]
+  song.push parseFloat songBytes.readFloatLE(i*4)
 
-# input = song
+input = song
 
-# sliceLength = 16
-# slices = for x in [0..input.length / sliceLength]
-#   input[sliceLength*x...sliceLength*(x+1)]
+sliceLength = 16
+slices = for x in [0..input.length / sliceLength]
+  input[sliceLength*x...sliceLength*(x+1)]
 
-# dcts = slices.map DCT.toDct
+dcts = slices.map DCT.toDct
 
-# dcts = dcts.map (dct) -> DCT.toLossyDct dct, 0.2
+dcts = dcts.map (dct) -> DCT.toLossyDct dct, 0.2
 
-# outputSlices = dcts.map DCT.fromDct
+outputSlices = dcts.map DCT.fromDct
 
-# output = [].concat.apply [], outputSlices
+output = [].concat.apply [], outputSlices
 
 
 # n = 0
@@ -45,7 +45,7 @@ readable._read = (n) ->
   amp = 32760 # max for 16 bit audio
 
   for i in [0...n]
-    sample = Math.round( Math.sin((i+@samplesGenerated)/100) * amp )
+    sample = song[ @samplesGenerated+i ] * amp
     buf.writeInt16LE( sample, i*2 )
 
   @samplesGenerated += n
