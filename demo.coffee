@@ -6,8 +6,8 @@ songBytes = fs.readFileSync 'out.raw'
 
 #16 bit le
 song = []
-for i in [0..900000]
-  song.push songBytes.readInt16LE(i*2) / Math.pow(2,16)
+for i in [100000..900000]
+  song.push parseFloat songBytes.readFloatLE(i*4)
 
 input = song
 
