@@ -14,7 +14,7 @@ outputSlices = dcts.map DCT.fromDct
 # dct = DCT.toDct input
 
 # dct = DCT.toLossyDct dct, 0.4
-output = [].concat.apply [], slices
+output = [].concat.apply [], outputSlices
 
 
 
