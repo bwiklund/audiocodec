@@ -45,7 +45,7 @@ readable._read = (n) ->
   amp = 32760 # max for 16 bit audio
 
   for i in [0...n]
-    sample = song[ @samplesGenerated+i ] * amp
+    sample = ~~ (output[ @samplesGenerated+i ] * amp)
     buf.writeInt16LE( sample, i*2 )
 
   @samplesGenerated += n
