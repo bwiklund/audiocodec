@@ -25,9 +25,16 @@ toChunks = (size,xs) ->
 
 unChunks = (xs) -> [].concat.apply [], xs
 
+
+
+processChunk = (chunk,i) ->
+  DCT.toDct(chunk)
+  console.log("#{i}")
+
+
 # what is this, haskell?
 output = _.flatten toChunks( argv.c, input )
-      .map( DCT.toDct )
+      .map( processChunk )
       .map( (dct) -> DCT.toLossyDct dct, argv.q )
 
 
