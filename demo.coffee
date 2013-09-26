@@ -81,6 +81,9 @@ class Player
 
       @push buf
 
+      if self.samples.length < @samplesGenerated
+        process.nextTick(this.emit.bind(this, 'end'))
+
     readable.pipe new Speaker
 
 
