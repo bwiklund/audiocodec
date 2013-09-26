@@ -4,39 +4,57 @@ _ = require 'underscore'
 argv = require('optimist')
   .usage("Usage: $0 -c [chunksize] -q [quality] -f [file]")
   .demand(['f'])
-  .default('chunksize',64)
-  .default('quality',0.5)
+  .default('c',64)
+  .default('q',0.5)
   .argv
 
-songBytes = fs.readFileSync argv.f
-
-#16 bit le
-song = []
-for i in [0...songBytes.length/4]
-  song.push songBytes.readFloatLE(i*4)
-
-input = song
-
-# convert the buffer to blocks, process each block, and recombine
-
-toChunks = (size,xs) ->
-  for x in [0..xs.length] by size
-    xs[x...x+size]
-
-unChunks = (xs) -> [].concat.apply [], xs
 
 
 
-processChunk = (chunk,i) ->
-  DCT.toDct(chunk)
-  console.log("#{i}")
 
 
-# what is this, haskell?
-output = _.flatten toChunks( argv.c, input )
-      .map( processChunk )
-      .map( (dct) -> DCT.toLossyDct dct, argv.q )
 
+class Encoder
+  constructor: (@settings) ->
+
+  process: ->
+    @songBytes = fs.readFileSync @settings.file
+    @input = for i in [0...500000]#songBytes.length/4]
+      @songBytes.readFloatLE(i*4)
+
+
+
+
+    # convert the buffer to blocks, process each block, and recombine
+
+    toChunks = (size,xs) ->
+      for x in [0..xs.length] by size
+        xs[x...x+size]
+
+    processChunk = (chunk) ->
+      # console.log()
+      DCT.toDct chunk
+
+
+
+    console.log "processing..."
+
+    # what is this, haskell?
+    @output = _.flatten toChunks( @settings.chunksize, @input )
+          .map( DCT.toDct )
+          .map( (dct) => DCT.toLossyDct dct, @settings.quality )
+
+    console.log "done processing"
+
+
+
+encoder = new Encoder
+  file:      ""+argv.f
+  chunksize: parseInt argv.c
+  quality:   parseFloat argv.q
+
+
+encoder.process()
 
 Readable = require('stream').Readable;
 Speaker = require('speaker')
@@ -57,7 +75,7 @@ readable._read = (n) ->
   amp = 32760 # max for 16 bit audio
 
   for i in [0...n]
-    sample = ~~ (output[ @samplesGenerated+i ] * amp / 2)
+    sample = ~~ (encoder.output[ @samplesGenerated+i ] * amp / 2)
     buf.writeInt16LE( sample, i*2 )
 
   @samplesGenerated += n
