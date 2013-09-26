@@ -12,6 +12,8 @@
     "mocha": "~1.13.0",
     "chai": "~1.8.0",
     "chai-stats": "~0.3.0",
-    "speaker": "0.0.10"
+    "speaker": "0.0.10",
+    "underscore": "~1.5.2",
+    "optimist": "~0.6.0"
   }
 }

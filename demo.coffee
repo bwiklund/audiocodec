@@ -1,12 +1,19 @@
 fs = require 'fs'
 DCT = require './dct'
+_ = require 'underscore'
+argv = require('optimist')
+  .usage("Usage: $0 -c [chunksize] -q [quality] -f [file]")
+  .demand(['f'])
+  .default('chunksize',64)
+  .default('quality',0.5)
+  .argv
 
-songBytes = fs.readFileSync 'out.raw'
+songBytes = fs.readFileSync argv.f
 
 #16 bit le
 song = []
-for i in [0..900000]
-  song.push parseFloat songBytes.readFloatLE(i*4)
+for i in [0...songBytes.length/4]
+  song.push songBytes.readFloatLE(i*4)
 
 input = song
 
@@ -19,10 +26,9 @@ toChunks = (size,xs) ->
 unChunks = (xs) -> [].concat.apply [], xs
 
 # what is this, haskell?
-output = unChunks toChunks( 16, input )
+output = _.flatten toChunks( argv.c, input )
       .map( DCT.toDct )
-      .map( (dct) -> DCT.toLossyDct dct, 0.2 )
-      .map( DCT.fromDct )
+      .map( (dct) -> DCT.toLossyDct dct, argv.q )
 
 
 Readable = require('stream').Readable;
@@ -44,7 +50,7 @@ readable._read = (n) ->
   amp = 32760 # max for 16 bit audio
 
   for i in [0...n]
-    sample = ~~ (output[ @samplesGenerated+i ] * amp)
+    sample = ~~ (output[ @samplesGenerated+i ] * amp / 2)
     buf.writeInt16LE( sample, i*2 )
 
   @samplesGenerated += n
